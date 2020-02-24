@@ -25,8 +25,14 @@ class Simple_login
             $this->CI->session->set_userdata('nama', $nama);
             $this->CI->session->set_userdata('username', $username);
             $this->CI->session->set_userdata('akses_level', $akses_level);
+
             //redirect ke halaman admin yang diproteksi
-            redirect(base_url('admin/dashboard'), 'refresh');
+            // redirect(base_url('admin/dashboard'), 'refresh');
+            if($akses_level == 'Admin'){ 
+                redirect(base_url('admin/dashboard'), 'refresh');
+            } else if($akses_level == 'Penjual'){ 
+                redirect(base_url('penjual/produk'), 'refresh');
+            }
         } else {
             //Jika tidak ada (username password salah), maka diminta login lagi
             $this->CI->session->set_flashdata('warning', 'Username atau password salah');

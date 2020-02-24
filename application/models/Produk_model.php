@@ -30,6 +30,28 @@ class Produk_model extends CI_Model
         return $query->result();
     }
 
+    //Listing my produk
+    public function myProduct()
+    {
+        $this->db->select('produk.*, 
+                        users.nama, 
+                        kategori.nama_kategori, 
+                        kategori.slug_kategori, 
+                        COUNT(gambar.id_gambar) AS total_gambar');
+        $this->db->from('produk');
+        //JOIN
+        $this->db->join('users', 'users.id_user = produk.id_user', 'left');
+        $this->db->join('kategori', 'kategori.id_kategori = produk.id_kategori', 'left');
+        $this->db->join('gambar', 'gambar.id_produk = produk.id_produk', 'left');
+        //WHERE
+        $this->db->where('produk.id_user', $this->session->userdata('id_user'));
+        //END JOIN
+        $this->db->group_by('produk.id_produk');
+        $this->db->order_by('id_produk', 'asc');
+        $query = $this->db->get();
+        return $query->result();
+    }
+
     //Listing all produk home
     public function home()
     {
