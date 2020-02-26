@@ -228,6 +228,13 @@ class Produk_model extends CI_Model
         $this->db->delete('gambar', $data);
     }
 
+    //reset stok
+    public function resetStok($data)
+    {
+        $sql = "update produk set stok = stok+".$data['stok']. " where id_produk=". $data['id_produk'];
+        $this->db->query($sql);
+    }
+
     //Tambah
     public function tambah($data)
     {

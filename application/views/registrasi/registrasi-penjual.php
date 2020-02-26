@@ -18,9 +18,6 @@
                 <p class="alert alert-success">Sudah memiliki akun? Silahkan
                     <a href="<?= base_url('masuk') ?>" class="btn btn-info btn-sm">Login di sini</a>
                 </p>
-                <p class="alert alert-success">Ingin berjualan? Silahkan
-                    <a href="<?= base_url('registrasi/penjual') ?>" class="btn btn-info btn-sm">Registrasi di sini</a>
-                </p>
 
                 <div class="col-md-12">
                     <?php
@@ -28,14 +25,14 @@
                     echo validation_errors('<div class="alert-warning">', '</div>');
 
                     //form open
-                    echo form_open(base_url('registrasi'), 'class="leave-comment"');
+                    echo form_open(base_url('registrasi/penjual'), 'class="leave-comment"');
                     ?>
 
                     <table class="table">
                         <thead>
                             <tr>
                                 <th width="25%">Nama</th>
-                                <th><input type="text" name="nama_pelanggan" class="form-control" placeholder="Nama Lengkap" value="<?= set_value('nama_pelanggan') ?>" required></th>
+                                <th><input type="text" name="nama" class="form-control" placeholder="Nama Lengkap" value="<?= set_value('nama') ?>" required></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -45,18 +42,13 @@
                                 </td>
                             </tr>
                             <tr>
+                                <td>Username</td>
+                                <td><input type="text" name="username" class="form-control" placeholder="Username" value="<?= set_value('username') ?>" required></th>
+                                </td>
+                            </tr>
+                            <tr>
                                 <td>Password</td>
                                 <td><input type="password" name="password" class="form-control" placeholder="Password" value="<?= set_value('password') ?>" required></th>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Telepon</td>
-                                <td><input type="telepon" name="telepon" class="form-control" placeholder="Telepon" value="<?= set_value('telepon') ?>" required></th>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Alamat</td>
-                                <td><textarea name="alamat" class="form-control" placeholder="Alamat"><?= set_value('alamat') ?></textarea></th>
                                 </td>
                             </tr>
                             <tr>

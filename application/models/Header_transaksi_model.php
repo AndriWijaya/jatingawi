@@ -34,7 +34,7 @@ class Header_transaksi_model extends CI_Model
         $this->db->join('transaksi', 'transaksi.kode_transaksi = header_transaksi.kode_transaksi', 'left');
         $this->db->join('pelanggan', 'pelanggan.id_pelanggan = header_transaksi.id_pelanggan', 'left');
         $this->db->join('rekening', 'rekening.id_rekening = header_transaksi.id_rekening', 'left');
-        $this->db->where('header_transaksi.id_user', $this->session->userdata('id_user'));
+        $this->db->where('transaksi.id_user', $this->session->userdata('id_user'));
         $this->db->group_by('header_transaksi.id_header_transaksi');
         $this->db->order_by('id_header_transaksi', 'asc');
         $query = $this->db->get();
@@ -85,6 +85,16 @@ class Header_transaksi_model extends CI_Model
         return $query->row();
     }
 
+    //Detail header transaksi
+    public function detailHeaderTransaksi($kode_transaksi)
+    {
+        $this->db->select('*');
+        $this->db->from('header_transaksi');
+        $this->db->where('kode_transaksi', $kode_transaksi);
+        $query = $this->db->get();
+        return $query->row();
+    }
+
     //Tambah
     public function tambah($data)
     {
@@ -95,6 +105,13 @@ class Header_transaksi_model extends CI_Model
     public function edit($data)
     {
         $this->db->where('id_header_transaksi', $data['id_header_transaksi']);
+        $this->db->update('header_transaksi', $data);
+    }
+
+    //Edit Transaksi
+    public function editTransaksi($data)
+    {
+        $this->db->where('kode_transaksi', $data['kode_transaksi']);
         $this->db->update('header_transaksi', $data);
     }
 

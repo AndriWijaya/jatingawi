@@ -25,9 +25,15 @@
                             </tr>
                         </thead>
                         <tbody>
+                            <?php
+                            $tanggal_transaksi = date('d-m-Y', strtotime($header_transaksi->tanggal_transaksi));
+                                if($header_transaksi->tipe_pembayaran == 'Booking-DP' && $header_transaksi->status_bayar == 'Konfirmasi'){
+                                    $tanggal_transaksi = "<strong>Sudah dibooking</strong>";
+                                }
+                            ?>
                             <tr>
                                 <td>Tanggal</td>
-                                <td>: <?= date('d-m-Y', strtotime($header_transaksi->tanggal_transaksi)) ?></td>
+                                <td>: <?= $tanggal_transaksi ?></td>
                             </tr>
                             <tr>
                                 <td>Jumlah Total</td>

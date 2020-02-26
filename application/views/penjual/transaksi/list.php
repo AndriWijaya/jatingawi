@@ -1,3 +1,11 @@
+<?php
+    //Notifikasi
+    if ($this->session->flashdata('sukses')) {
+        echo '<p class="alert alert-success">';
+        echo $this->session->flashdata('sukses');
+        echo '</div>';
+    }
+?>
 <table class="table table-bordered table-responsive" width="100%">
     <thead>
         <tr class="bg-success text-sm">

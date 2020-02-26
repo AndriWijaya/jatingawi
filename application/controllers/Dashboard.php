@@ -185,6 +185,17 @@ class Dashboard extends CI_Controller
         );
 
         if ($valid->run()) {
+            //set tipe pembayaran
+            if($header_transaksi->tipe_pembayaran == 'Lunas'){
+                $next_tipe_pembayaran = 'Lunas';
+            } else if($header_transaksi->tipe_pembayaran == 'Booking'){
+                $next_tipe_pembayaran = 'Booking-DP';
+            } else if($header_transaksi->tipe_pembayaran == 'Booking-DP'){
+                $next_tipe_pembayaran = 'Booking-Lunas';
+            } else {
+                $next_tipe_pembayaran = $header_transaksi->tipe_pembayaran;
+            }
+
             //Konfirmasi pembayaran dan upload bukti bayar 
             if (!empty($_FILES['bukti_bayar']['name'])) {
                 $config['upload_path']      = './assets/upload/image/';
@@ -236,6 +247,7 @@ class Dashboard extends CI_Controller
                         'bukti_bayar'           => $upload_gambar['upload_data']['file_name'],
                         'id_rekening'           => $i->post('id_rekening'),
                         'tanggal_bayar'         => $i->post('tanggal_bayar'),
+                        'tipe_pembayaran'       => $next_tipe_pembayaran,
                         'nama_bank'             => $i->post('nama_bank')
 
                     );
@@ -255,6 +267,7 @@ class Dashboard extends CI_Controller
                     // 'bukti_bayar'           => $upload_gambar['upload_data']['file_name'],
                     'id_rekening'           => $i->post('id_rekening'),
                     'tanggal_bayar'         => $i->post('tanggal_bayar'),
+                    'tipe_pembayaran'       => $next_tipe_pembayaran,
                     'nama_bank'             => $i->post('nama_bank')
 
                 );

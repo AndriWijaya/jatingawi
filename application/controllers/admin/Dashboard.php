@@ -9,6 +9,7 @@ class Dashboard extends CI_Controller
         parent::__construct();
         //Proteksi halaman
         $this->simple_login->cek_login();
+        $this->simple_login->cek_admin();
     }
 
     //halaman utama dashboard

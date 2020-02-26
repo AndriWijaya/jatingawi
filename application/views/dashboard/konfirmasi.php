@@ -14,6 +14,9 @@
                 <hr>
 
                 <?php
+                // print_r($header_transaksi);
+                // if($header_transaksi->bukti_bayar == null)
+
                 //Jika ada transaksi, tampilkan tabel riwayatnya
                 if ($header_transaksi) { ?>
 
@@ -29,13 +32,23 @@
                                 <td>Tanggal</td>
                                 <td>: <?= date('d-m-Y', strtotime($header_transaksi->tanggal_transaksi)) ?></td>
                             </tr>
+                            <?php
+                                if($header_transaksi->tipe_pembayaran == 'Booking-DP') {
+                            ?>
+                                    <tr>
+                                        <td>Batas Pelunasan</td>
+                                        <td>: <?= date('d-m-Y', strtotime($header_transaksi->tanggal_transaksi . ' +10 day')) ?></td>
+                                    </tr>
+                            <?php
+                                }
+                            ?>
                             <tr>
                                 <td>Jumlah Total</td>
                                 <td>: Rp <?= number_format($header_transaksi->jumlah_transaksi, '0', ',', '.') ?></td>
                             </tr>
                             <tr>
                                 <td>Status Bayar</td>
-                                <td>: <?= $header_transaksi->status_bayar ?></td>
+                                <td>: <?= ($header_transaksi->tipe_pembayaran == 'Booking-DP'? 'Sudah dibooking': $header_transaksi->status_bayar) ?></td>
                             </tr>
                             <tr>
                                 <td>Bukti Bayar</td>
@@ -69,8 +82,7 @@
                                     <select name="id_rekening" class="form-control">
                                         <?php foreach ($rekening as $rekening) { ?>
                                             <option value="<?= $rekening->id_rekening ?>" <?php if ($header_transaksi->id_rekening == $rekening->id_rekening) {
-                                                                                                        echo "selected";
-                                                                                                    } ?>>
+                                                    echo "selected";} ?>>
                                                 <?= $rekening->nama_bank ?> (NO. Rekening: <?= $rekening->nama_pemilik ?>)
                                             </option>
                                         <?php } ?>
@@ -81,24 +93,42 @@
                                 <td>Tanggal Pembayaran</td>
                                 <td>
                                     <input type="text" name="tanggal_bayar" class="form-control-lg" placeholder="dd-mm-yy" value="<?php if (isset($_POST['tanggal_bayar'])) {
-                                                                                                                                            echo set_value('tanggal_bayar');
-                                                                                                                                        } elseif ($header_transaksi->tanggal_bayar != "") {
-                                                                                                                                            echo $header_transaksi->tanggal_bayar;
-                                                                                                                                        } else {
-                                                                                                                                            echo date('d-m-Y');
-                                                                                                                                        } ?>">
+                                            echo set_value('tanggal_bayar');
+                                        } elseif ($header_transaksi->tanggal_bayar != "") { 
+                                            if($header_transaksi->tipe_pembayaran == 'Booking-DP') { 
+                                                echo date('d-m-Y');
+                                            }else{
+                                                echo $header_transaksi->tanggal_bayar;
+                                            }
+                                        } else {
+                                            echo date('d-m-Y');
+                                        } ?>">
                                 </td>
                             </tr>
                             <tr>
                                 <td>Jumlah Pembayaran</td>
                                 <td>
-                                    <input type="number" name="jumlah_bayar" class="form-control-lg" placeholder="Jumlah Pembayaran" value="<?php if (isset($_POST['jumlah_bayar'])) {
-                                                                                                                                                    echo set_value('jumlah_bayar');
-                                                                                                                                                } elseif ($header_transaksi->jumlah_bayar != "") {
-                                                                                                                                                    echo $header_transaksi->jumlah_bayar;
-                                                                                                                                                } else {
-                                                                                                                                                    echo $header_transaksi->jumlah_transaksi;
-                                                                                                                                                } ?>">
+                                    <input type="number" name="jumlah_bayar" class="form-control-lg" placeholder="Jumlah Pembayaran" value="<?php if (isset($_POST['jumlah_bayar'])) {                              
+                                            echo set_value('jumlah_bayar');
+                                            } elseif ($header_transaksi->jumlah_bayar != "") { 
+                                                if($header_transaksi->tipe_pembayaran == 'Booking') { 
+                                                    echo $header_transaksi->jumlah_transaksi * 0.1;
+                                                }elseif($header_transaksi->tipe_pembayaran == 'Booking-DP') { 
+                                                    echo $header_transaksi->jumlah_transaksi * 0.9;
+                                                }else{
+                                                    echo $header_transaksi->jumlah_bayar;
+                                                }
+                                            } else {
+                                                if ($header_transaksi->tipe_pembayaran == 'Lunas') { 
+                                                    echo $header_transaksi->jumlah_transaksi;
+                                                }elseif($header_transaksi->tipe_pembayaran == 'Booking') { 
+                                                    echo $header_transaksi->jumlah_transaksi * 0.1;
+                                                }elseif($header_transaksi->tipe_pembayaran == 'Booking-DP') { 
+                                                    echo $header_transaksi->jumlah_transaksi * 0.9;
+                                                }else{
+                                                    echo $header_transaksi->jumlah_transaksi;
+                                                }
+                                            } ?>">
                                 </td>
                             </tr>
                             <tr>

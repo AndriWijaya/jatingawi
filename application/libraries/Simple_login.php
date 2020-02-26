@@ -31,7 +31,7 @@ class Simple_login
             if($akses_level == 'Admin'){ 
                 redirect(base_url('admin/dashboard'), 'refresh');
             } else if($akses_level == 'Penjual'){ 
-                redirect(base_url('penjual/produk'), 'refresh');
+                redirect(base_url('penjual/transaksi'), 'refresh');
             }
         } else {
             //Jika tidak ada (username password salah), maka diminta login lagi
@@ -47,6 +47,15 @@ class Simple_login
         if ($this->CI->session->userdata('username') == "") {
             $this->CI->session->set_flashdata('warning', 'Anda belum login');
             redirect(base_url('login'), 'refresh');
+        }
+    }
+
+    //Fungsi cek login
+    public function cek_admin()
+    {
+        //Memeriksa apakah session admin
+        if ($this->CI->session->userdata('akses_level') != "Admin") {
+            redirect(base_url('penjual/transaksi'), 'refresh');
         }
     }
 

@@ -11,6 +11,7 @@ class Transaksi extends CI_Controller
         $this->load->model('transaksi_model');
         $this->load->model('header_transaksi_model');
         $this->load->model('konfigurasi_model');
+        $this->simple_login->cek_admin();
     }
 
     //Load data header transaksi
@@ -55,5 +56,42 @@ class Transaksi extends CI_Controller
             'site'              => $site
         );
         $this->load->view('admin/transaksi/cetak', $data, FALSE);
+    }
+
+    //update status transaksi (kofirmasi --> terkonfirmasi)
+    public function status($kode_transaksi)
+    {
+        $header_transaksi = $this->header_transaksi_model->detailHeaderTransaksi($kode_transaksi);
+
+        if($header_transaksi->status_bayar == 'Konfirmasi'){
+            $data = array(
+                'kode_transaksi'    => $kode_transaksi,
+                'status_bayar'      => 'Terkonfirmasi'
+            );
+
+            $this->header_transaksi_model->editTransaksi($data);
+            $this->session->set_flashdata('sukses', 'Status transaksi berhasil diperbaruhi!');
+        }
+        redirect(base_url('admin/transaksi'), 'refresh');
+    }
+
+    //delete transaksi
+    public function delete($kode_transaksi)
+    {
+        $transaksi = $this->transaksi_model->kode_transaksi($kode_transaksi);
+        foreach ($transaksi as $transaksi){
+            $dataProduk = array(
+                'id_produk'         => $transaksi->id_produk,
+                'stok'              => $transaksi->jumlah
+            );
+
+            //stok kembali tambah
+            $this->produk_model->resetStok($dataProduk);
+        }
+
+        $data = array('kode_transaksi' => $kode_transaksi);
+        $this->transaksi_model->deleteTransaksi($data);
+        $this->session->set_flashdata('sukses', 'Data transaksi telah dihapus!');
+        redirect(base_url('admin/transaksi'), 'refresh');
     }
 }

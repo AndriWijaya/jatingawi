@@ -11,6 +11,7 @@ class Produk extends CI_Controller
         $this->load->model('kategori_model');
         //Proteksi halaman
         $this->simple_login->cek_login();
+        $this->simple_login->cek_admin();
     }
 
     //Data produk

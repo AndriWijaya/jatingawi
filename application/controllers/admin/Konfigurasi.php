@@ -8,6 +8,7 @@ class Konfigurasi extends CI_Controller
     {
         parent::__construct();
         $this->load->model('konfigurasi_model');
+        $this->simple_login->cek_admin();
     }
 
     //Konfigurasi umum

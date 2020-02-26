@@ -17,7 +17,7 @@
 
                 <p class="alert alert-success">Registrasi berhasil dilakukan
                     <a href="<?= base_url('masuk') ?>" class="btn btn-info btn-sm">Login di sini.</a>
-                    Anda juga bisa melakukan checkout <a href="<?= base_url('belanja/checkout') ?>" class="btn btn-warning btn-sm"><i class="fa fa-shopping-cart"></i> Checkout</a>
+                    Anda juga bisa melakukan checkout <a href="<?= base_url('belanja/checkout') ?>" class="btn btn-warning btn-sm"><i class="fa fa-shopping-cart"></i> Checkout</a> Login disini untuk penjual <a href="<?= base_url('login') ?>" class="btn btn-info btn-sm">Login penjual.</a>
                 </p>
 
             </div>

@@ -56,4 +56,21 @@ class Transaksi extends CI_Controller
         );
         $this->load->view('penjual/transaksi/cetak', $data, FALSE);
     }
+
+    //update status transaksi (kofirmasi --> terkonfirmasi)
+    public function status($kode_transaksi)
+    {
+        $header_transaksi = $this->header_transaksi_model->detailHeaderTransaksi($kode_transaksi);
+
+        if($header_transaksi->status_bayar == 'Terkonfirmasi'){
+            $data = array(
+                'kode_transaksi'    => $kode_transaksi,
+                'status_bayar'      => 'Barang Dikirim'
+            );
+
+            $this->header_transaksi_model->editTransaksi($data);
+            $this->session->set_flashdata('sukses', 'Status transaksi berhasil diperbaruhi!');
+        }
+        redirect(base_url('penjual/transaksi'), 'refresh');
+    }
 }
