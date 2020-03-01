@@ -14,6 +14,18 @@
         <?= $title ?>
     </span>
 </div>
+    
+    
+<?php
+//Notifikasi
+if ($this->session->flashdata('gagal')) {
+    echo '<div class="container bgwhite p-t-20">';
+    echo '<p class="alert alert-danger">';
+    echo $this->session->flashdata('gagal');
+    echo '</div>';
+    echo '</div>';
+}
+?>
 
 <!-- Product Detail -->
 <div class="container bgwhite p-t-35 p-b-80">
@@ -67,6 +79,10 @@
 
             <p class="s-text8 p-t-10">
                 <?= $produk->keterangan ?>
+            </p>
+
+            <p class="s-text8 p-t-10">
+                Tersisa <strong><?= $produk->stok ?></strong> Item
             </p>
 
             <!--  -->

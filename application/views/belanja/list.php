@@ -13,6 +13,11 @@
                     echo '<div class="alert alert-warning">';
                     echo $this->session->flashdata('sukses');
                     echo '</div>';
+                } 
+                if ($this->session->flashdata('gagal')) {
+                    echo '<p class="alert alert-danger">';
+                    echo $this->session->flashdata('gagal');
+                    echo '</div>';
                 } ?>
 
                 <table class="table table-shopping-cart">

@@ -198,7 +198,7 @@ class Dashboard extends CI_Controller
 
             //Konfirmasi pembayaran dan upload bukti bayar 
             if (!empty($_FILES['bukti_bayar']['name'])) {
-                $config['upload_path']      = './assets/upload/image/';
+                $config['upload_path']      = './assets/upload/image/'. $kode_transaksi. '/';
                 $config['allowed_types']    = 'gif|jpg|png|jpeg';
                 $config['max_size']         = '2048';
                 $config['max_width']        = '4096';
@@ -223,7 +223,7 @@ class Dashboard extends CI_Controller
 
                     //Create thumbnail gambar
                     $config['image_library']    = 'gd2';
-                    $config['source_image']     = './assets/upload/image/' . $upload_gambar['upload_data']['file_name'];
+                    $config['source_image']     = './assets/upload/image/' . $kode_transaksi. '/'. $upload_gambar['upload_data']['file_name'];
                     //Lokasi folder thumbnail
                     $config['new_image']        = './assets/upload/image/thumbs/';
                     $config['create_thumb']     = TRUE;

@@ -52,11 +52,19 @@
                             </tr>
                             <tr>
                                 <td>Bukti Bayar</td>
-                                <td>: <?php if ($header_transaksi->bukti_bayar != "") { ?>
-                                        <img src="<?= base_url('assets/upload/image/' . $header_transaksi->bukti_bayar) ?>" class="img img-thumbnail" width="200">
-                                    <?php } else {
-                                            echo "Belum ada bukti bayar";
-                                        } ?>
+                                <td>: 
+                                    <?php 
+                                    if ($header_transaksi->bukti_bayar != "") { 
+                                        $this->load->helper('directory');
+                                        $dir = 'assets/upload/image/'. $header_transaksi->kode_transaksi. '/';
+                                        $map = directory_map($dir);
+                                        foreach ($map as $k) {
+                                            echo '<img src="'. base_url($dir . ''. $k). '" class="img img-thumbnail" width="200">';
+                                        }
+                                    } else {
+                                        echo "Belum ada bukti bayar";
+                                    }      
+                                    ?>
                                 </td>
                             </tr>
                         </tbody>

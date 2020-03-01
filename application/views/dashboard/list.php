@@ -10,11 +10,21 @@
             </div>
 
             <div class="col-sm-6 col-md-8 col-lg-9 p-b-50">
+                <?php
+                //Notifikasi
+                if ($this->session->flashdata('sukses')) {
+                    echo '<div class="alert alert-warning alert-dismisable">';
+                    echo '<a href="#" aria-label="close" class="close" data-dismiss="alert">&times;</a>';
+                    echo $this->session->flashdata('sukses');
+                    echo '</div>';
+                }
+                ?>
                 <div class="alert alert-success">
                     <h1>Selamat Datang
                         <i><strong><?= $this->session->userdata('nama_pelanggan'); ?></i></strong>
                     </h1>
                 </div>
+
 
                 <?php
                 //Jika ada transaksi, tampilkan tabel riwayatnya

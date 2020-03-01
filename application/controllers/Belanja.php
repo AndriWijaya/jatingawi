@@ -286,14 +286,21 @@ class Belanja extends CI_Controller
             $name              = $this->input->post('name');
             $redirect_page     = $this->input->post('redirect_page');
 
-            //proses memasukkan ke keranjang belanja
-            $data = array(
-                'id'        => $id,
-                'qty'       => $qty,
-                'price'     => $price,
-                'name'      => $name
-            );
-            $this->cart->insert($data);
+            //cek apa stok > pesanan
+            $produk = $this->produk_model->detail($id);
+            if ($qty <= $produk->stok) {
+                //proses memasukkan ke keranjang belanja
+                $data = array(
+                    'id'        => $id,
+                    'qty'       => $qty,
+                    'price'     => $price,
+                    'name'      => $name
+                );
+                $this->cart->insert($data);
+            } else {
+                $this->session->set_flashdata('gagal', 'Gagal menambahkan pada keranjang belanja. Pastikan stok barang mencukupi');    
+            }
+            
             //redirect page
             redirect($redirect_page, 'refresh');
         } else {
@@ -306,12 +313,20 @@ class Belanja extends CI_Controller
     {
         //jika ada data rowid
         if ($rowid) {
-            $data = array(
-                'rowid'     => $rowid,
-                'qty'       => $this->input->post('qty')
-            );
-            $this->cart->update($data);
-            $this->session->set_flashdata('sukses', 'Data keranjang telah diupdate!');
+            //get id produk by rowid
+            $item = $this->cart->get_item($rowid);
+            //cek apa stok > pesanan
+            $produk = $this->produk_model->detail($item['id']);
+            if ($this->input->post('qty') <= $produk->stok) {
+                $data = array(
+                    'rowid'     => $rowid,
+                    'qty'       => $this->input->post('qty')
+                );
+                $this->cart->update($data);
+                $this->session->set_flashdata('sukses', 'Data keranjang telah diupdate!');
+            } else {
+                $this->session->set_flashdata('gagal', 'Gagal mengubah jumlah produk. Pastikan stok barang mencukupi');    
+            }
             redirect(base_url('belanja'), 'refresh');
         } else {
             //jika tidak ada rowid

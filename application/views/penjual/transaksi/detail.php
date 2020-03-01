@@ -31,9 +31,14 @@
             <td>Bukti Bayar</td>
             <td>: <?php if ($header_transaksi->bukti_bayar == "") {
                         echo 'Tidak ada';
-                    } else { ?>
-                    <img src="<?= base_url('assets/upload/image/' . $header_transaksi->bukti_bayar) ?>" class="img img-thumbnail" width="200">
-                <?php } ?>
+                    } else { 
+                        $this->load->helper('directory');
+                        $dir = 'assets/upload/image/'. $header_transaksi->kode_transaksi. '/';
+                        $map = directory_map($dir);
+                        foreach ($map as $k) {
+                            echo '<img src="'. base_url($dir . ''. $k). '" class="img img-thumbnail" width="200">';
+                        }
+                    } ?>
             </td>
         </tr>
         <tr>
